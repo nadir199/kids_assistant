@@ -19,6 +19,8 @@ Route::post("/log","UserController@log");
 Route::post("/activite/add","ActiviteController@add");
 
 Route::post("/enfant/add","EnfantController@add");
+
+Route::get("/proposition/random","PropositionController@randomOne");
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
