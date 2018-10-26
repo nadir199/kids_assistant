@@ -15,15 +15,15 @@ class CreateActivitesTable extends Migration
     {
         Schema::create('activites', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nom');
-            $table->string('description');
-            $table->string('categorie');
+            $table->string('nom')->default("N/A");
+            $table->string('description')->default("Aucune description");
+            $table->string('categorie')->default("Autre");
             $table->timestamp('dateDebut');
             $table->timestamp('dateFin');
             $table->unsignedInteger('enfant_id');
             $table->foreign('enfant_id')->references('id')->on('enfants');
-            $table->unsignedInteger('proposition_id');
-            $table->foreign('proposition_id')->references('id')->on('proposition')->nullable();
+            $table->unsignedInteger('proposition_id')->default(0);
+            //$table->foreign('proposition_id')->references('id')->on('proposition')->nullable();
             $table->timestamps();
         });
     }
