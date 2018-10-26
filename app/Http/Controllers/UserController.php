@@ -9,11 +9,16 @@ class UserController extends Controller
 {
     //
     public function store(Request $request){
+        $name=$request->input("name");
+        $prenom=$request->input("prenom");
+        $dateDeNaissance=$request->input("dateDeNaissance");
         $email=$request->input("email");
         $password=$request->input("password");
         $token=sha1(time());
         User::create([
-            "name"=>$email,
+            "name"=>$name,
+            "prenom"=> $prenom,
+            "dateDeNaissance"=>$dateDeNaissance,
             "email"=>$email,
             "password"=>sha1($password),
             "token"=> $token
@@ -27,9 +32,10 @@ class UserController extends Controller
         $email=$request->input("email");
         $password=$request->input("password");
         $data= User::where("email","=",$email)
-                ->where("password","=",sha1($password));
+                ->where("password","=",sha1($password))
+                ->count();
         $token=sha1(time());
-        if(count($data)){
+        if($data){
             User::where("email","=",$email)
                 ->update(["token"=> $token]);
             return response()->json([
