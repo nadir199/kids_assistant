@@ -18,7 +18,7 @@ Route::post("/log","UserController@log");
 
 Route::post("/activite/add","ActiviteController@add");
 
-Route::get("/enfant/add","EnfantController@add");
+Route::post("/enfant/add","EnfantController@add");
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

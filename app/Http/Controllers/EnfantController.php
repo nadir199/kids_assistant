@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Centre_Enfant;
+use App\Enfant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,9 +19,9 @@ class EnfantController extends Controller
         $poids=$request->input("poids");
 
         $userID=$request->input("user_id");
-        $centres=$request->input("centres");
-
-        DB::transaction(function () use ($nom,$prenom,$dateNaiss,$sexe,$taille,$poids,$userID,$centres) {
+        $centres=json_decode($request->input("centres"));
+        $enfantId=null;
+        DB::transaction(function () use ($nom,$prenom,$dateNaiss,$sexe,$taille,$poids,$userID,$centres,&$enfantId) {
             $enfantId= DB::table('enfants')
                         ->insertGetId([
                             "nom"=>$nom,
@@ -31,16 +32,19 @@ class EnfantController extends Controller
                             "poids"=>$poids,
                             "user_id"=>$userID
                         ]);
-            foreach($centres as $c){
-                $centre_enfant=new Centre_Enfant;
-                $centre_enfant->enfant_id=$enfantId;
-                $centre_enfant->centre_id=$c;
-                $centre_enfant->save();
+            foreach($centres as $k=>$c){
+                DB::table("centre__enfants")
+                    ->insert([
+                        "enfant_id"=>$enfantId,
+                        "centre_id"=>$c
+                    ]);
             }
         }, 3);
 
-        
-
+        $enfant = Enfant::where('id',$enfantId)->first();
+        return response()->json([
+            "error"=>is_null($enfant)
+        ]);
 
     }
 }
