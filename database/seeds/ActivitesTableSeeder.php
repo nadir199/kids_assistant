@@ -21,6 +21,7 @@ class ActivitesTableSeeder extends Seeder
             'dateDebut' => date("2018-10-28 20:00:00"),
             'dateFin' => date("2018-10-28 21:00:00"),
             'enfant_id' => 1,
+            'proposition_id' => 1,
         ]);
         Activite::create([
         	'nom' => 'Jeux',
@@ -29,6 +30,7 @@ class ActivitesTableSeeder extends Seeder
             'dateDebut' => date("2018-10-28 19:00:00"),
             'dateFin' => date("2018-10-28 20:00:00"),
             'enfant_id' => 2,
+            'proposition_id' => 2,
         ]);
     }
 }

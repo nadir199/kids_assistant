@@ -13,4 +13,8 @@ class Enfant extends Model
 	public function activite() {
         return $this->hasMany('App\Activite');
     }
+    public function centres()
+    {
+        return $this->belongsToMany('App\Centre');
+    }
 }
